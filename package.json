@@ -6,11 +6,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "seed": "node -r dotenv/config ./src/app/scripts/seed.js"
   },
   "dependencies": {
     "@vercel/postgres": "^0.5.1",
+    "@vercel/postgres-kysely": "^0.6.0",
     "clsx": "^2.0.0",
+    "kysely": "^0.26.3",
     "next": "14.0.1",
     "react": "^18",
     "react-dom": "^18"
