@@ -49,8 +49,9 @@ export type UserUpdate = Updateable<UserTable>;
 export interface ListTable {
   id: Generated<number>;
   userId: number;
+  title: string;
   description: string;
-  isTemplate: "template" | "custom";
+  isTemplate: boolean;
   created_at: ColumnType<Date, string | undefined, never>;
 }
 
@@ -114,7 +115,7 @@ export interface CommentsRatingTable {
   id: Generated<number>;
   commentId: number;
   userId: number;
-  upVote: number;
+  vote: number;
 }
 export type CommentRating = Selectable<CommentsRatingTable>;
 export type NewCommentRating = Insertable<CommentsRatingTable>;
@@ -124,7 +125,7 @@ export interface ListRatings {
   id: Generated<number>;
   listId: number;
   userId: number;
-  isLike: boolean;
+  vote: number;
 }
 export type ListRating = Selectable<ListRatings>;
 export type NewListRating = Insertable<ListRatings>;
