@@ -2,11 +2,13 @@
   "name": "sleekshelf",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "migrate": "ts-node ./src/app/database/script.ts",
     "seed": "node -r dotenv/config ./src/app/scripts/seed.js"
   },
   "dependencies": {

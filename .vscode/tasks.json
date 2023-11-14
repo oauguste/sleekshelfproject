@@ -1,0 +1,16 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "migrate",
+			"problemMatcher": [],
+			"label": "npm: migrate",
+			"detail": "ts-node ./src/app/database/script.ts",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		}
+	]
+}
