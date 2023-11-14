@@ -1,12 +1,16 @@
+import 'dotenv/config'
 import * as path from "path";
 import { Pool } from "pg";
 import { promises as fs } from "fs";
+
 import {
   Kysely,
   Migrator,
   PostgresDialect,
   FileMigrationProvider,
 } from "kysely";
+
+
 
 async function migrateToLatest() {
   const db = new Kysely({
@@ -15,8 +19,12 @@ async function migrateToLatest() {
         connectionString: process.env.POSTGRES_URL + "?sslmode=require",
       }),
     }),
+    
   });
-
+  console.log({
+    POSTGRES_URL: process.env.POSTGRES_URL,
+   POSTGRES_URL_NON_POOLING: process.env.POSTGRES_URL_NON_POOLING
+   });
   const migrator = new Migrator({
     db,
     provider: new FileMigrationProvider({
@@ -39,6 +47,7 @@ async function migrateToLatest() {
   } finally {
     await db.destroy();
   }
+  
 }
 
 migrateToLatest();
