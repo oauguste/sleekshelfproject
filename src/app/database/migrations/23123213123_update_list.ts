@@ -1,16 +1,6 @@
 import { Kysely, sql } from "kysely";
 export async function up(db: Kysely<any>): Promise<void> {
-  await db.schema
-    .createTable("user")
-    .addColumn("id", "serial", (col) => col.primaryKey())
-    .addColumn("username", "varchar", (col) => col.notNull())
-    .addColumn("email", "varchar", (col) => col.notNull().unique())
-    .addColumn("password_hash", "varchar", (col) => col.notNull())
-    .addColumn("premium_status", "varchar", (col) => col.notNull())
-    .addColumn("created_at", "timestamp", (col) =>
-      col.defaultTo(sql`now()`).notNull(),
-    )
-    .execute();
+ 
 
   await db.schema
     .createTable("list")

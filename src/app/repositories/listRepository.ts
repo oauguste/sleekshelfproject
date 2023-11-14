@@ -21,6 +21,8 @@ export async function findList(criteria: Partial<List>) {
 
   return await query.selectAll().execute();
 }
+
+
 export async function updateList(id: number, updateWith: ListUpdate) {
   await db.updateTable("list").set(updateWith).where("id", "=", id).execute();
 }

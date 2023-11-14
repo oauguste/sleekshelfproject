@@ -10,12 +10,12 @@ export interface Database {
   user: UserTable;
   list: ListTable;
   book: BooksTable;
-  listBook: ListBookJunction;
+  list_book: ListBookJunction;
   tag: TagsTable;
-  listTag: TagListJunction;
+  list_tag: TagListJunction;
   comment: CommentsTable;
-  commentRating: CommentsRatingTable;
-  listRating: ListRatings;
+  comment_rating: CommentsRatingTable;
+  list_rating: ListRatings;
 }
 
 export interface UserTable {
@@ -48,10 +48,10 @@ export type UserUpdate = Updateable<UserTable>;
 
 export interface ListTable {
   id: Generated<number>;
-  userId: number;
+  user_id: number;
   title: string;
   description: string;
-  isTemplate: boolean;
+  is_template: boolean;
   created_at: ColumnType<Date, string | undefined, never>;
 }
 
@@ -63,12 +63,12 @@ export interface BooksTable {
   id: Generated<number>;
   title: string;
   author: string;
-  isbn10: string;
-  isbn13: string;
-  publicationYear: number;
+  isbn_10: string;
+  isbn_13: string;
+  publication_year: number;
   genre: string;
   pages: number;
-  coverImage: string;
+  cover_image: string;
 }
 
 export type Book = Selectable<BooksTable>;
@@ -76,9 +76,9 @@ export type NewBook = Insertable<BooksTable>;
 export type BookUpdate = Updateable<BooksTable>;
 
 export interface ListBookJunction {
-  listId: number;
-  bookId: number;
-  userRanking: number;
+  list_id: number;
+  book_id: number;
+  user_ranking: number;
 }
 export type ListBook = Selectable<ListBookJunction>;
 export type NewListBook = Insertable<ListBookJunction>;
@@ -86,15 +86,15 @@ export type ListBookUpdate = Updateable<ListBookJunction>;
 
 export interface TagsTable {
   id: Generated<number>;
-  tagName: string;
+  tag_name: string;
 }
 export type Tag = Selectable<TagsTable>;
 export type NewTag = Insertable<TagsTable>;
 export type TagUpdate = Updateable<TagsTable>;
 
 export interface TagListJunction {
-  listId: number;
-  tagId: number;
+  list_id: number;
+  tag_id: number;
 }
 export type ListTag = Selectable<TagListJunction>;
 export type NewListTag = Insertable<TagListJunction>;
@@ -102,9 +102,9 @@ export type ListTagUpdate = Updateable<ListBookJunction>;
 
 export interface CommentsTable {
   id: Generated<number>;
-  listId: number;
-  userId: number;
-  commentText: string;
+  list_id: number;
+  user_id: number;
+  comment_text: string;
   created_at: ColumnType<Date, string | undefined, never>;
 }
 export type Comment = Selectable<CommentsTable>;
@@ -113,8 +113,8 @@ export type CommentUpdate = Updateable<CommentsTable>;
 
 export interface CommentsRatingTable {
   id: Generated<number>;
-  commentId: number;
-  userId: number;
+  comment_id: number;
+  user_id: number;
   vote: number;
 }
 export type CommentRating = Selectable<CommentsRatingTable>;
@@ -123,8 +123,8 @@ export type CommentRatingUpdate = Updateable<CommentsRatingTable>;
 
 export interface ListRatings {
   id: Generated<number>;
-  listId: number;
-  userId: number;
+  list_id: number;
+  user_id: number;
   vote: number;
 }
 export type ListRating = Selectable<ListRatings>;
