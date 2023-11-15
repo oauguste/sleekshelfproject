@@ -6,7 +6,7 @@ export async function up(db: Kysely<any>): Promise<void> {
     .addColumn("username", "varchar", (col) => col.notNull())
     .addColumn("email", "varchar", (col) => col.notNull().unique())
     .addColumn("password_hash", "varchar", (col) => col.notNull())
-    .addColumn("premium_status", "varchar", (col) => col.notNull())
+    .addColumn("premium_status", "varchar", (col) => col.notNull().defaultTo("free")) //Todo: eun the migration again then delete this
     .addColumn("created_at", "timestamp", (col) =>
       col.defaultTo(sql`now()`).notNull(),
     )
