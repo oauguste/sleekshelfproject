@@ -39,17 +39,6 @@ exports.__esModule = true;
 var userRepository_1 = require("../repositories/userRepository");
 var zod_1 = require("zod");
 var zod_validation_error_1 = require("zod-validation-error");
-var myError = new zod_1.z.ZodError([]);
-var passwordForm = zod_1.z
-    .object({
-    password: zod_1.z.string(),
-    confirm: zod_1.z.string()
-})
-    .refine(function (data) { return data.password === data.confirm; }, {
-    message: "Passwords don't match",
-    path: ["confirm"]
-});
-passwordForm.parse({ password: "asdf", confirm: "qwer" });
 var createUserSchema = zod_1.z.object({
     username: zod_1.z.string(),
     email: zod_1.z.string().email(),
@@ -72,18 +61,20 @@ function handler(req, res) {
                 case 2:
                     newUser = _a.sent();
                     if (newUser) {
-                        res.status(201).json({ message: "user created successfully" });
+                        return [2 /*return*/, res.status(201).json({ message: "User created successfully", data: newUser })];
                     }
-                    res.status(201).json({ message: "Error, failed to create user" });
+                    else {
+                        return [2 /*return*/, res.status(400).json({ message: "Error, failed to create user" })];
+                    }
                     return [3 /*break*/, 4];
                 case 3:
                     error_1 = _a.sent();
                     if (error_1 instanceof zod_1.z.ZodError) {
                         validationError = zod_validation_error_1.fromZodError(error_1);
-                        res.status(400).json({ message: validationError.message });
+                        return [2 /*return*/, res.status(400).json({ message: validationError.message })];
                     }
                     else {
-                        res.status(500).json({ message: "Error, unable to proccess request" });
+                        return [2 /*return*/, res.status(500).json({ message: "Error, unable to process request" })];
                     }
                     return [3 /*break*/, 4];
                 case 4: return [3 /*break*/, 11];
@@ -95,17 +86,14 @@ function handler(req, res) {
                     return [4 /*yield*/, userRepository_1.findUser(req.query)];
                 case 7:
                     users = _a.sent();
-                    res.status(200).json({ message: "successfully fetch user" });
-                    return [3 /*break*/, 9];
+                    return [2 /*return*/, res.status(200).json({ message: "Successfully fetched users", data: users })];
                 case 8:
                     error_2 = _a.sent();
-                    res.status(500).json({ message: "Error, unable to proccess user fetch request" });
-                    return [3 /*break*/, 9];
+                    return [2 /*return*/, res.status(500).json({ message: "Error, unable to process user fetch request" })];
                 case 9: return [3 /*break*/, 11];
                 case 10:
                     res.setHeader('Allow', ['GET', 'POST']);
-                    res.status(405).end("Method " + req.method + " Not Allowed");
-                    _a.label = 11;
+                    return [2 /*return*/, res.status(405).end("Method " + req.method + " Not Allowed")];
                 case 11: return [2 /*return*/];
             }
         });
