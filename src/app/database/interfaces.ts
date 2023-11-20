@@ -4,6 +4,7 @@ import {
   Insertable,
   Selectable,
   Updateable,
+ 
 } from "kysely";
 
 export interface Database {
@@ -58,6 +59,7 @@ export interface ListTable {
 export type List = Selectable<ListTable>;
 export type NewList = Insertable<ListTable>;
 export type ListUpdate = Updateable<ListTable>;
+
 
 export interface BooksTable {
   id: Generated<number>;

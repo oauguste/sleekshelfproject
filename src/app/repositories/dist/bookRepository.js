@@ -36,15 +36,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.deleteUser = exports.createUser = exports.updateUser = exports.findUser = exports.findUserById = void 0;
+exports.deleteBook = exports.createBook = exports.updateBook = exports.findBook = exports.findBookById = void 0;
 var database_1 = require("../database/database");
-function findUserById(id) {
+function findBookById(id) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, database_1.db
-                        .selectFrom('user')
-                        .where('id', "=", id)
+                        .selectFrom("book")
+                        .where("id", "=", id)
                         .selectAll()
                         .executeTakeFirst()];
                 case 1: return [2 /*return*/, _a.sent()];
@@ -52,35 +52,43 @@ function findUserById(id) {
         });
     });
 }
-exports.findUserById = findUserById;
-function findUser(criteria) {
+exports.findBookById = findBookById;
+function findBook(criteria) {
     return __awaiter(this, void 0, void 0, function () {
         var query;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    query = database_1.db.selectFrom('user');
-                    if (criteria.id) {
-                        query = query.where('id', '=', criteria.id);
+                    query = database_1.db.selectFrom("book");
+                    if (criteria.title) {
+                        query = query.where("title", "like", "%" + criteria.title + "%");
                     }
-                    if (criteria.email) {
-                        query = query.where('email', '=', criteria.email);
+                    if (criteria.author) {
+                        query = query.where("author", "like", "%" + criteria.author + "%");
                     }
-                    if (criteria.username) {
-                        query = query.where('username', '=', criteria.username);
+                    if (criteria.isbn_10) {
+                        query = query.where("isbn_10", "like", "%" + criteria.isbn_10 + "%");
+                    }
+                    if (criteria.isbn_13) {
+                        query = query.where("isbn_13", "like", "%" + criteria.isbn_13 + "%");
+                    }
+                    if (criteria.genre) {
+                        query = query.where("genre", "like", "%" + criteria.genre + "%");
                     }
                     return [4 /*yield*/, query.selectAll().execute()];
-                case 1: return [2 /*return*/, _a.sent()];
+                case 1: 
+                // Add more criteria as needed
+                return [2 /*return*/, _a.sent()];
             }
         });
     });
 }
-exports.findUser = findUser;
-function updateUser(id, updateWith) {
+exports.findBook = findBook;
+function updateBook(id, updateWith) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, database_1.db.updateTable('user').set(updateWith).where('id', '=', id).execute()];
+                case 0: return [4 /*yield*/, database_1.db.updateTable("book").set(updateWith).where("id", "=", id).execute()];
                 case 1:
                     _a.sent();
                     return [2 /*return*/];
@@ -88,12 +96,14 @@ function updateUser(id, updateWith) {
         });
     });
 }
-exports.updateUser = updateUser;
-function createUser(user) {
+exports.updateBook = updateBook;
+function createBook(book) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, database_1.db.insertInto("user").values(user)
+                case 0: return [4 /*yield*/, database_1.db
+                        .insertInto("book")
+                        .values(book)
                         .returningAll()
                         .executeTakeFirstOrThrow()];
                 case 1: return [2 /*return*/, _a.sent()];
@@ -101,13 +111,14 @@ function createUser(user) {
         });
     });
 }
-exports.createUser = createUser;
-function deleteUser(id) {
+exports.createBook = createBook;
+function deleteBook(id) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, database_1.db.deleteFrom('user')
-                        .where("id", '=', id)
+                case 0: return [4 /*yield*/, database_1.db
+                        .deleteFrom("book")
+                        .where("id", "=", id)
                         .returningAll()
                         .executeTakeFirst()];
                 case 1: return [2 /*return*/, _a.sent()];
@@ -115,4 +126,4 @@ function deleteUser(id) {
         });
     });
 }
-exports.deleteUser = deleteUser;
+exports.deleteBook = deleteBook;

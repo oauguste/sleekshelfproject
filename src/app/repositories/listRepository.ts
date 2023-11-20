@@ -39,6 +39,5 @@ export async function deleteList(id: number) {
   return await db
     .deleteFrom("list")
     .where("id", "=", id)
-    .returningAll()
     .executeTakeFirst();
 }

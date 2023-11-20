@@ -36,24 +36,23 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var listRepository_1 = require("../../repositories/listRepository");
+var bookRepository_1 = require("../repositories/bookRepository");
 var zod_1 = require("zod");
 var zod_validation_error_1 = require("zod-validation-error");
-var createListSchema = zod_1.z.object({
+var createBookSchema = zod_1.z.object({
     id: zod_1.z.number(),
-    user_id: zod_1.z.number(),
     title: zod_1.z.string(),
-    description: zod_1.z.string(),
-    is_template: zod_1.z.boolean(),
-    created_at: zod_1.z.string().datetime()
-});
-var updateListSchema = zod_1.z.object({
-    title: zod_1.z.string().optional(),
-    description: zod_1.z.string().optional()
+    author: zod_1.z.string(),
+    isbn_10: zod_1.z.string(),
+    isbn_13: zod_1.z.string(),
+    publication_year: zod_1.z.number(),
+    genre: zod_1.z.string(),
+    pages: zod_1.z.number(),
+    cover_image: zod_1.z.string()
 });
 function handler(req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        var parsed, newList, error_1, validationError, list, error_2, listId, existingList, parsedUpdateData, updatedList, error_3, validationError;
+        var parsed, newBook, error_1, validationError, Book, error_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -61,18 +60,18 @@ function handler(req, res) {
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
-                    parsed = createListSchema.parse(req.body);
-                    return [4 /*yield*/, listRepository_1.createList(parsed)];
+                    parsed = createBookSchema.parse(req.body);
+                    return [4 /*yield*/, bookRepository_1.createBook(parsed)];
                 case 2:
-                    newList = _a.sent();
-                    if (newList) {
+                    newBook = _a.sent();
+                    if (newBook) {
                         return [2 /*return*/, res.status(201).json({
-                                message: "List created successfully",
-                                data: newList
+                                message: "Book created successfully",
+                                data: newBook
                             })];
                     }
                     else {
-                        return [2 /*return*/, res.status(400).json({ message: "Error, failed to create list" })];
+                        return [2 /*return*/, res.status(400).json({ message: "Error, failed to create Book" })];
                     }
                     return [3 /*break*/, 4];
                 case 3:
@@ -90,50 +89,15 @@ function handler(req, res) {
                     _a.label = 5;
                 case 5:
                     _a.trys.push([5, 7, , 8]);
-                    return [4 /*yield*/, listRepository_1.findList(req.query)];
+                    return [4 /*yield*/, bookRepository_1.findBook(req.query)];
                 case 6:
-                    list = _a.sent();
-                    return [2 /*return*/, res.status(200).json({ message: "Successfully fetched users", data: list })];
+                    Book = _a.sent();
+                    return [2 /*return*/, res.status(200).json({ message: "Successfully fetched users", data: Book })];
                 case 7:
                     error_2 = _a.sent();
                     return [2 /*return*/, res.status(500).json({ message: "Error, unable to process user fetch request"
                         })];
-                case 8:
-                    if (!(req.method === "PUT")) return [3 /*break*/, 13];
-                    _a.label = 9;
-                case 9:
-                    _a.trys.push([9, 12, , 13]);
-                    listId = parseInt(req.query.id);
-                    if (isNaN(listId)) {
-                        return [2 /*return*/, res.status(400).json({ message: "Invalid list ID" })];
-                    }
-                    return [4 /*yield*/, listRepository_1.findListById(listId)];
-                case 10:
-                    existingList = _a.sent();
-                    if (!existingList) {
-                        return [2 /*return*/, res.status(404).json({ message: "List not found" })];
-                    }
-                    parsedUpdateData = updateListSchema.parse(req.body);
-                    return [4 /*yield*/, listRepository_1.updateList(listId, parsedUpdateData)];
-                case 11:
-                    updatedList = _a.sent();
-                    return [2 /*return*/, res.status(200).json({
-                            message: "List updated sucessfully",
-                            data: updatedList
-                        })];
-                case 12:
-                    error_3 = _a.sent();
-                    if (error_3 instanceof zod_1.z.ZodError) {
-                        validationError = zod_validation_error_1.fromZodError(error_3);
-                        return [2 /*return*/, res.status(400).json({ message: validationError.message })];
-                    }
-                    else {
-                        return [2 /*return*/, res.status(500).json({ message: "Error, unable to process request" })];
-                    }
-                    return [3 /*break*/, 13];
-                case 13:
-                    if (req.method === "DELETE") { }
-                    return [2 /*return*/];
+                case 8: return [2 /*return*/];
             }
         });
     });

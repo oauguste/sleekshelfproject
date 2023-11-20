@@ -9,7 +9,7 @@ export async function findBookById(id: number) {
     .executeTakeFirst();
 }
 
-export async function findBooks(criteria: Partial<Book>) {
+export async function findBook(criteria: Partial<Book>) {
   let query = db.selectFrom("book");
 
   if (criteria.title) {

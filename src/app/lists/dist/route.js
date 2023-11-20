@@ -36,83 +36,67 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.deleteUser = exports.createUser = exports.updateUser = exports.findUser = exports.findUserById = void 0;
-var database_1 = require("../database/database");
-function findUserById(id) {
+var listRepository_1 = require("../repositories/listRepository");
+var zod_1 = require("zod");
+var zod_validation_error_1 = require("zod-validation-error");
+var createListSchema = zod_1.z.object({
+    id: zod_1.z.number(),
+    user_id: zod_1.z.number(),
+    title: zod_1.z.string(),
+    description: zod_1.z.string(),
+    is_template: zod_1.z.boolean(),
+    created_at: zod_1.z.string().datetime()
+});
+function handler(req, res) {
     return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, database_1.db
-                        .selectFrom('user')
-                        .where('id', "=", id)
-                        .selectAll()
-                        .executeTakeFirst()];
-                case 1: return [2 /*return*/, _a.sent()];
-            }
-        });
-    });
-}
-exports.findUserById = findUserById;
-function findUser(criteria) {
-    return __awaiter(this, void 0, void 0, function () {
-        var query;
+        var parsed, newList, error_1, validationError, list, error_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    query = database_1.db.selectFrom('user');
-                    if (criteria.id) {
-                        query = query.where('id', '=', criteria.id);
-                    }
-                    if (criteria.email) {
-                        query = query.where('email', '=', criteria.email);
-                    }
-                    if (criteria.username) {
-                        query = query.where('username', '=', criteria.username);
-                    }
-                    return [4 /*yield*/, query.selectAll().execute()];
-                case 1: return [2 /*return*/, _a.sent()];
-            }
-        });
-    });
-}
-exports.findUser = findUser;
-function updateUser(id, updateWith) {
-    return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, database_1.db.updateTable('user').set(updateWith).where('id', '=', id).execute()];
+                    if (!(req.method === "POST")) return [3 /*break*/, 4];
+                    _a.label = 1;
                 case 1:
-                    _a.sent();
-                    return [2 /*return*/];
+                    _a.trys.push([1, 3, , 4]);
+                    parsed = createListSchema.parse(req.body);
+                    return [4 /*yield*/, listRepository_1.createList(parsed)];
+                case 2:
+                    newList = _a.sent();
+                    if (newList) {
+                        return [2 /*return*/, res.status(201).json({
+                                message: "List created successfully",
+                                data: newList
+                            })];
+                    }
+                    else {
+                        return [2 /*return*/, res.status(400).json({ message: "Error, failed to create list" })];
+                    }
+                    return [3 /*break*/, 4];
+                case 3:
+                    error_1 = _a.sent();
+                    if (error_1 instanceof zod_1.z.ZodError) {
+                        validationError = zod_validation_error_1.fromZodError(error_1);
+                        return [2 /*return*/, res.status(400).json({ message: validationError.message })];
+                    }
+                    else {
+                        return [2 /*return*/, res.status(500).json({ message: "Error, unable to process request" })];
+                    }
+                    return [3 /*break*/, 4];
+                case 4:
+                    if (!(req.method === "GET")) return [3 /*break*/, 8];
+                    _a.label = 5;
+                case 5:
+                    _a.trys.push([5, 7, , 8]);
+                    return [4 /*yield*/, listRepository_1.findList(req.query)];
+                case 6:
+                    list = _a.sent();
+                    return [2 /*return*/, res.status(200).json({ message: "Successfully fetched users", data: list })];
+                case 7:
+                    error_2 = _a.sent();
+                    return [2 /*return*/, res.status(500).json({ message: "Error, unable to process user fetch request"
+                        })];
+                case 8: return [2 /*return*/];
             }
         });
     });
 }
-exports.updateUser = updateUser;
-function createUser(user) {
-    return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, database_1.db.insertInto("user").values(user)
-                        .returningAll()
-                        .executeTakeFirstOrThrow()];
-                case 1: return [2 /*return*/, _a.sent()];
-            }
-        });
-    });
-}
-exports.createUser = createUser;
-function deleteUser(id) {
-    return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, database_1.db.deleteFrom('user')
-                        .where("id", '=', id)
-                        .returningAll()
-                        .executeTakeFirst()];
-                case 1: return [2 /*return*/, _a.sent()];
-            }
-        });
-    });
-}
-exports.deleteUser = deleteUser;
+exports["default"] = handler;

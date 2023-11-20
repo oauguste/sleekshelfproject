@@ -106,7 +106,6 @@ function deleteList(id) {
                 case 0: return [4 /*yield*/, database_1.db
                         .deleteFrom("list")
                         .where("id", "=", id)
-                        .returningAll()
                         .executeTakeFirst()];
                 case 1: return [2 /*return*/, _a.sent()];
             }

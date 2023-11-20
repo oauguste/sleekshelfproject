@@ -1,7 +1,7 @@
 import { db } from "../database/database";
 import { User, NewUser, UserUpdate } from "../database/interfaces";
 
-export async function findUserByid(id:number) {
+export async function findUserById(id:number) {
     return await db
     .selectFrom('user')
     .where('id',"=", id)
