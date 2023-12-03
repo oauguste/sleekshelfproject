@@ -69,7 +69,7 @@ function findUser(criteria) {
                     if (criteria.username) {
                         query = query.where('username', '=', criteria.username);
                     }
-                    return [4 /*yield*/, query.selectAll().execute()];
+                    return [4 /*yield*/, query.selectAll().executeTakeFirst()];
                 case 1: return [2 /*return*/, _a.sent()];
             }
         });

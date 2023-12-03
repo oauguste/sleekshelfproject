@@ -22,7 +22,7 @@ export async function findUser(criteria:Partial<User>) {
     if(criteria.username){
         query = query.where('username', '=', criteria.username)
     }
-    return await query.selectAll().execute()
+    return await query.selectAll().executeTakeFirst()
     
 }
 
