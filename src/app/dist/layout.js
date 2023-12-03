@@ -2,7 +2,7 @@
 exports.__esModule = true;
 exports.metadata = void 0;
 // import { Inter } from "next/font/google";
-require("../styles/globals.css");
+require("@/styles/globals.css");
 var Navbar_1 = require("@/components/Navbar");
 var utils_1 = require("@/lib/utils");
 var Toaster_1 = require("@/components/ui/Toaster");
