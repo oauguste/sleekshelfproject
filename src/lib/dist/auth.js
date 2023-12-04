@@ -43,7 +43,7 @@ var google_1 = require("next-auth/providers/google");
 var kysely_adapter_1 = require("@auth/kysely-adapter");
 var database_1 = require("@/app/database/database"); // Adjust the path as necessary
 var next_auth_1 = require("next-auth");
-var userRepository_1 = require("../app/repositories/userRepository");
+var userRepository_1 = require("../repositories/userRepository");
 exports.authOptions = {
     //@ts-ignore
     adapter: kysely_adapter_1.KyselyAdapter(database_1.db),

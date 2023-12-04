@@ -1,5 +1,5 @@
-import { db } from "../database/database";
-import { ListTag, NewListTag, ListTagUpdate } from "../database/interfaces";
+import { db } from "../app/database/database";
+import { ListTag, NewListTag, ListTagUpdate } from "../app/database/interfaces";
 
 export async function findTagListById(listId: number, tagId: number) {
   return await db

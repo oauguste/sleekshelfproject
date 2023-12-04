@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Icons } from "./Icons";
 import UserAuthForm from "./UserAuthForm";
+import React from "react";
 
 const SignIn = ({}) => {
   return (

@@ -1,5 +1,5 @@
 import { ListUpdate } from '@/app/database/interfaces';
-import { deleteList, findListById, updateList } from '@/app/repositories/listRepository';
+import { deleteList, findListById, updateList } from '@/repositories/listRepository';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { z } from 'zod';
 import { fromZodError } from 'zod-validation-error';

@@ -1,5 +1,5 @@
 import { BookUpdate } from '@/app/database/interfaces';
-import { deleteBook, findBookById, updateBook } from '@/app/repositories/bookRepository';
+import { deleteBook, findBookById, updateBook } from '@/repositories/bookRepository';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { z } from 'zod';
 import { fromZodError } from 'zod-validation-error';

@@ -1,5 +1,5 @@
-import { createBook, findBook } from "../repositories/bookRepository";
-import { Book } from "../database/interfaces";
+import { createBook, findBook } from "../../repositories/bookRepository";
+import { Book } from "../../database/interfaces";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { z } from "zod"
 import { fromZodError } from "zod-validation-error";

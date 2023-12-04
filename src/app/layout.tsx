@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 // import { Inter } from "next/font/google";
 import "@/styles/globals.css";
 import Navbar from "@/components/Navbar";
+import React from "react";
+import ReactDOM from "react-dom";
 
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/Toaster";

@@ -36,70 +36,71 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var bookRepository_1 = require("../../repositories/bookRepository");
-var zod_1 = require("zod");
-var zod_validation_error_1 = require("zod-validation-error");
-var createBookSchema = zod_1.z.object({
-    id: zod_1.z.number(),
-    title: zod_1.z.string(),
-    author: zod_1.z.string(),
-    isbn_10: zod_1.z.string(),
-    isbn_13: zod_1.z.string(),
-    publication_year: zod_1.z.number(),
-    genre: zod_1.z.string(),
-    pages: zod_1.z.number(),
-    cover_image: zod_1.z.string()
-});
-function handler(req, res) {
+exports.deleteTagList = exports.createTagList = exports.findTagLists = exports.findTagListById = void 0;
+var database_1 = require("../app/database/database");
+function findTagListById(listId, tagId) {
     return __awaiter(this, void 0, void 0, function () {
-        var parsed, newBook, error_1, validationError, Book, error_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0:
-                    if (!(req.method === "POST")) return [3 /*break*/, 4];
-                    _a.label = 1;
-                case 1:
-                    _a.trys.push([1, 3, , 4]);
-                    parsed = createBookSchema.parse(req.body);
-                    return [4 /*yield*/, bookRepository_1.createBook(parsed)];
-                case 2:
-                    newBook = _a.sent();
-                    if (newBook) {
-                        return [2 /*return*/, res.status(201).json({
-                                message: "Book created successfully",
-                                data: newBook
-                            })];
-                    }
-                    else {
-                        return [2 /*return*/, res.status(400).json({ message: "Error, failed to create Book" })];
-                    }
-                    return [3 /*break*/, 4];
-                case 3:
-                    error_1 = _a.sent();
-                    if (error_1 instanceof zod_1.z.ZodError) {
-                        validationError = zod_validation_error_1.fromZodError(error_1);
-                        return [2 /*return*/, res.status(400).json({ message: validationError.message })];
-                    }
-                    else {
-                        return [2 /*return*/, res.status(500).json({ message: "Error, unable to process request" })];
-                    }
-                    return [3 /*break*/, 4];
-                case 4:
-                    if (!(req.method === "GET")) return [3 /*break*/, 8];
-                    _a.label = 5;
-                case 5:
-                    _a.trys.push([5, 7, , 8]);
-                    return [4 /*yield*/, bookRepository_1.findBook(req.query)];
-                case 6:
-                    Book = _a.sent();
-                    return [2 /*return*/, res.status(200).json({ message: "Successfully fetched users", data: Book })];
-                case 7:
-                    error_2 = _a.sent();
-                    return [2 /*return*/, res.status(500).json({ message: "Error, unable to process user fetch request"
-                        })];
-                case 8: return [2 /*return*/];
+                case 0: return [4 /*yield*/, database_1.db
+                        .selectFrom("list_tag")
+                        .where("list_id", "=", listId)
+                        .where("tag_id", "=", tagId)
+                        .selectAll()
+                        .executeTakeFirst()];
+                case 1: return [2 /*return*/, _a.sent()];
             }
         });
     });
 }
-exports["default"] = handler;
+exports.findTagListById = findTagListById;
+function findTagLists(criteria) {
+    return __awaiter(this, void 0, void 0, function () {
+        var query;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    query = database_1.db.selectFrom('list_tag');
+                    // Add other criteria as needed
+                    if (criteria.list_id) {
+                        query = query.where('list_id', '=', criteria.list_id);
+                    }
+                    if (criteria.tag_id) {
+                        query = query.where('tag_id', '=', criteria.tag_id);
+                    }
+                    return [4 /*yield*/, query.selectAll().execute()];
+                case 1: return [2 /*return*/, _a.sent()];
+            }
+        });
+    });
+}
+exports.findTagLists = findTagLists;
+function createTagList(tagList) {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, database_1.db
+                        .insertInto("list_tag")
+                        .values(tagList)
+                        .execute()];
+                case 1: return [2 /*return*/, _a.sent()];
+            }
+        });
+    });
+}
+exports.createTagList = createTagList;
+function deleteTagList(listId, tagId) {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, database_1.db
+                        .deleteFrom("list_tag")
+                        .where("list_id", "=", listId)
+                        .where("tag_id", "=", tagId)
+                        .execute()];
+                case 1: return [2 /*return*/, _a.sent()];
+            }
+        });
+    });
+}
+exports.deleteTagList = deleteTagList;

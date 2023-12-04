@@ -1,5 +1,5 @@
-import { createList, findList } from "../repositories/listRepository";
-import { List } from "../database/interfaces";
+import { createList, findList } from "../../repositories/listRepository";
+import { List } from "../../database/interfaces";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { z } from "zod"
 import { fromZodError } from "zod-validation-error";

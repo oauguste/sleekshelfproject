@@ -1,4 +1,3 @@
-"use client";
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -37,48 +36,57 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var react_1 = require("react");
-var react_2 = require("react");
-var button_1 = require("./ui/button");
-var utils_1 = require("@/lib/utils");
-var react_3 = require("next-auth/react");
-var Icons_1 = require("./Icons");
-var use_toast_1 = require("@/hooks/use-toast");
-var UserAuthForm = function (_a) {
-    var _b = react_2.useState(false), isLoading = _b[0], setIsLoading = _b[1];
-    var toast = use_toast_1.useToast().toast;
-    var loginWithGoogle = function () { return __awaiter(void 0, void 0, void 0, function () {
-        var error_1;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
+require("dotenv/config");
+var path = require("path");
+var pg_1 = require("pg");
+var fs_1 = require("fs");
+var kysely_1 = require("kysely");
+function migrateToLatest() {
+    return __awaiter(this, void 0, void 0, function () {
+        var db, migrator, _a, error, results;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
                 case 0:
-                    setIsLoading(true);
-                    _a.label = 1;
-                case 1:
-                    _a.trys.push([1, 3, 4, 5]);
-                    return [4 /*yield*/, react_3.signIn("google")];
-                case 2:
-                    _a.sent();
-                    return [3 /*break*/, 5];
-                case 3:
-                    error_1 = _a.sent();
-                    //toast notification
-                    toast({
-                        title: "There was a problem.",
-                        description: "There was an error login in with google",
-                        variant: "destructive"
+                    db = new kysely_1.Kysely({
+                        dialect: new kysely_1.PostgresDialect({
+                            pool: new pg_1.Pool({
+                                connectionString: process.env.POSTGRES_URL + "?sslmode=require"
+                            })
+                        })
                     });
+                    console.log({
+                        POSTGRES_URL: process.env.POSTGRES_URL,
+                        POSTGRES_URL_NON_POOLING: process.env.POSTGRES_URL_NON_POOLING
+                    });
+                    migrator = new kysely_1.Migrator({
+                        db: db,
+                        provider: new kysely_1.FileMigrationProvider({
+                            fs: fs_1.promises,
+                            path: path,
+                            migrationFolder: path.join(__dirname, "./migrations")
+                        })
+                    });
+                    _b.label = 1;
+                case 1:
+                    _b.trys.push([1, , 3, 5]);
+                    return [4 /*yield*/, migrator.migrateToLatest()];
+                case 2:
+                    _a = _b.sent(), error = _a.error, results = _a.results;
+                    results === null || results === void 0 ? void 0 : results.forEach(function (result) {
+                        console.log(result.migrationName, result.status);
+                    });
+                    if (error) {
+                        console.error("Migration failed:", error);
+                        process.exit(1);
+                    }
                     return [3 /*break*/, 5];
+                case 3: return [4 /*yield*/, db.destroy()];
                 case 4:
-                    setIsLoading(false);
+                    _b.sent();
                     return [7 /*endfinally*/];
                 case 5: return [2 /*return*/];
             }
         });
-    }); };
-    return (react_1["default"].createElement("div", { className: utils_1.cn("flex justify-center") },
-        react_1["default"].createElement(button_1.Button, { onClick: loginWithGoogle, isLoading: isLoading, size: "sm", className: "w-full" },
-            isLoading ? null : (react_1["default"].createElement(Icons_1.Icons.google, { className: "h-4 w-4 mr-2" })),
-            "Google")));
-};
-exports["default"] = UserAuthForm;
+    });
+}
+migrateToLatest();

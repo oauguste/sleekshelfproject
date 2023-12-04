@@ -1,5 +1,5 @@
 import { UserUpdate } from '@/app/database/interfaces';
-import { deleteUser, findUserById, updateUser } from '@/app/repositories/userRepository';
+import { deleteUser, findUserById, updateUser } from '@/repositories/userRepository';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { z } from 'zod';
 import { fromZodError } from 'zod-validation-error';
