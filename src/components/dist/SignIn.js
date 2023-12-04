@@ -4,7 +4,7 @@ var link_1 = require("next/link");
 var Icons_1 = require("./Icons");
 var UserAuthForm_1 = require("./UserAuthForm");
 var react_1 = require("react");
-var SignIn = function (_a) {
+var SignIn = function () {
     return (react_1["default"].createElement("div", { className: "container mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[400px]" },
         react_1["default"].createElement("div", { className: "flex flex-col space-y-2 text-center" },
             react_1["default"].createElement(Icons_1.Icons.logo, { className: "mx-auto h-6 w-6" }),

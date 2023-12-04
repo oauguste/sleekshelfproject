@@ -24,20 +24,21 @@ var __rest = (this && this.__rest) || function (s, e) {
 };
 exports.__esModule = true;
 exports.Toaster = void 0;
+var react_1 = require("react");
 var Toast_1 = require("@/components/ui/Toast");
 var use_toast_1 = require("@/hooks/use-toast");
 function Toaster() {
     var toasts = use_toast_1.useToast().toasts;
-    return (React.createElement(Toast_1.ToastProvider, null,
+    return (react_1["default"].createElement(Toast_1.ToastProvider, null,
         toasts.map(function (_a) {
             var id = _a.id, title = _a.title, description = _a.description, action = _a.action, props = __rest(_a, ["id", "title", "description", "action"]);
-            return (React.createElement(Toast_1.Toast, __assign({ key: id }, props),
-                React.createElement("div", { className: "grid gap-1" },
-                    title && React.createElement(Toast_1.ToastTitle, null, title),
-                    description && (React.createElement(Toast_1.ToastDescription, null, description))),
+            return (react_1["default"].createElement(Toast_1.Toast, __assign({ key: id }, props),
+                react_1["default"].createElement("div", { className: "grid gap-1" },
+                    title && react_1["default"].createElement(Toast_1.ToastTitle, null, title),
+                    description && (react_1["default"].createElement(Toast_1.ToastDescription, null, description))),
                 action,
-                React.createElement(Toast_1.ToastClose, null)));
+                react_1["default"].createElement(Toast_1.ToastClose, null)));
         }),
-        React.createElement(Toast_1.ToastViewport, null)));
+        react_1["default"].createElement(Toast_1.ToastViewport, null)));
 }
 exports.Toaster = Toaster;

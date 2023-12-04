@@ -1,4 +1,4 @@
-import { ListUpdate } from '@/app/database/interfaces';
+import { ListUpdate } from '@/database/interfaces';
 import { deleteList, findListById, updateList } from '@/repositories/listRepository';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { z } from 'zod';

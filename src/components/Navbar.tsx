@@ -2,7 +2,6 @@ import Link from "next/link";
 import React from "react";
 import { Icons } from "./Icons";
 import { buttonVariants } from "./ui/button";
-import { getAuthSession } from "@/lib/auth";
 
 const Navbar = () => {
   // const session = await getAuthSession();
