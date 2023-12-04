@@ -1,6 +1,10 @@
 "use strict";
 
-exports.__esModule = true; // import React from "react";
+var _react = _interopRequireDefault(require("react"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+exports.__esModule = true;
 
 var SignIn_1 = require("@/components/SignIn");
 
@@ -11,16 +15,16 @@ var utils_1 = require("@/lib/utils");
 var link_1 = require("next/link");
 
 var page = function page() {
-  return React.createElement("div", {
+  return _react["default"].createElement("div", {
     className: "absolute inset-0"
-  }, React.createElement("div", {
+  }, _react["default"].createElement("div", {
     className: "h-full max-w-2xl mx-auto flex flex-col items-center justify-center gap-20"
-  }, React.createElement(link_1["default"], {
+  }, _react["default"].createElement(link_1["default"], {
     href: "/",
     className: utils_1.cn(button_1.buttonVariants({
       variant: "ghost"
     }), "self-start -mt-20 ")
-  }, "Home"), React.createElement(SignIn_1["default"], null)));
+  }, "Home"), _react["default"].createElement(SignIn_1["default"], null)));
 };
 
 exports["default"] = page;

@@ -145,7 +145,7 @@ var __generator = void 0 && (void 0).__generator || function (thisArg, body) {
 
 exports.__esModule = true;
 
-var bookRepository_1 = require("../../repositories/bookRepository");
+var bookRepository_1 = require("../../../repositories/bookRepository");
 
 var zod_1 = require("zod");
 

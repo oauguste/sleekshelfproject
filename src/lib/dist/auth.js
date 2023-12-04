@@ -41,7 +41,7 @@ exports.getAuthSession = exports.authOptions = void 0;
 var nanoid_1 = require("nanoid");
 var google_1 = require("next-auth/providers/google");
 var kysely_adapter_1 = require("@auth/kysely-adapter");
-var database_1 = require("@/app/database/database"); // Adjust the path as necessary
+var database_1 = require("@/database/database"); // Adjust the path as necessary
 var next_auth_1 = require("next-auth");
 var userRepository_1 = require("../repositories/userRepository");
 exports.authOptions = {

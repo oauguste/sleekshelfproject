@@ -2,7 +2,7 @@
 import {nanoid} from "nanoid"
 import GoogleProvider from "next-auth/providers/google";
 import { KyselyAdapter } from "@auth/kysely-adapter";
-import { db } from "@/app/database/database";  // Adjust the path as necessary
+import { db } from "@/database/database";  // Adjust the path as necessary
 import { NextAuthOptions, getServerSession } from "next-auth";
 import {  findUser, updateUser } from "../repositories/userRepository";
 
