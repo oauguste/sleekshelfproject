@@ -8,6 +8,16 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   transpilePackages: ["lucide-react"], // add this
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "*.googleusercontent.com",
+        port: "",
+        pathname: "**",
+      },
+    ],
+  },
 };
 
 module.exports = nextConfig;

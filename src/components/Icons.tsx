@@ -5,6 +5,7 @@ import {
 } from "lucide-react";
 
 export const Icons = {
+  user: User,
   logo: ({
     className,
     ...props

@@ -25,6 +25,7 @@ exports.__esModule = true;
 exports.Icons = void 0;
 var lucide_react_1 = require("lucide-react");
 exports.Icons = {
+    user: lucide_react_1.User,
     logo: function (_a) {
         var className = _a.className, props = __rest(_a, ["className"]);
         return (React.createElement("svg", __assign({}, props, { xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", className: "lucide lucide-book-open-text " + className }),
