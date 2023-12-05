@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { FC } from "react";
 import { ChevronLeft } from "lucide-react";
+import SignUp from "@/components/SignUp";
 
 const page: FC = () => {
   return (
@@ -21,7 +22,7 @@ const page: FC = () => {
           Home
         </Link>
         {/* sigin */}
-        <SignIn />
+        <SignUp />
       </div>
     </div>
   );

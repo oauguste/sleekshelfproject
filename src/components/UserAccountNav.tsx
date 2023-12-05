@@ -49,18 +49,19 @@ const UserAccountNav: FC<UserAccountNavProps> = ({
           <Link href="/">Profile</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link href="/l/user/lists">My Lists</Link>
+          <Link href="/l/viewList">My Lists</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link href="/settings">Account Settings</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
+
         <DropdownMenuItem
           className="cursor-pointer"
           onSelect={(event) => {
             event.preventDefault();
             signOut({
-              callbackUrl: `${window.location.origin}/signin`,
+              callbackUrl: `${window.location.origin}/sign-in`,
             });
           }}
         >

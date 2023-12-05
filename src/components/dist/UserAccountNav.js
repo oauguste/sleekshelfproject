@@ -23,14 +23,14 @@ var UserAccountNav = function (_a) {
             react_1["default"].createElement(DropdownMenu_1.DropdownMenuItem, { asChild: true },
                 react_1["default"].createElement(link_1["default"], { href: "/" }, "Profile")),
             react_1["default"].createElement(DropdownMenu_1.DropdownMenuItem, { asChild: true },
-                react_1["default"].createElement(link_1["default"], { href: "/l/user/lists" }, "My Lists")),
+                react_1["default"].createElement(link_1["default"], { href: "/l/viewList" }, "My Lists")),
             react_1["default"].createElement(DropdownMenu_1.DropdownMenuItem, { asChild: true },
                 react_1["default"].createElement(link_1["default"], { href: "/settings" }, "Account Settings")),
             react_1["default"].createElement(DropdownMenu_1.DropdownMenuSeparator, null),
             react_1["default"].createElement(DropdownMenu_1.DropdownMenuItem, { className: "cursor-pointer", onSelect: function (event) {
                     event.preventDefault();
                     react_2.signOut({
-                        callbackUrl: window.location.origin + "/signin"
+                        callbackUrl: window.location.origin + "/sign-in"
                     });
                 } },
                 react_1["default"].createElement(link_1["default"], { href: "/signout" }, "Sign out")))));
