@@ -4,6 +4,9 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { z } from "zod"
 import { fromZodError } from "zod-validation-error";
 
+import { getUserFromSession } from "@/lib/authCheck"; // Adjust the import path as needed
+
+
 type ResponseData = {
     message: string;
     data?: any;
@@ -18,13 +21,21 @@ const createListSchema = z.object({
     created_at: z.string().datetime(),
 
 })
-
+export type CreateListSchema = z.infer<typeof createListSchema>
 
 export default async function handler(req:NextApiRequest, res:NextApiResponse<ResponseData>) {
     if(req.method === "POST"){
         try {
-            const parsed = createListSchema.parse(req.body)
-            const newList = await createList(parsed)
+            const user = await getUserFromSession(req);
+
+            const { title, description } = req.body;
+            const newList = await createList({
+              user_id: user.userId,
+              title,
+              description,
+              is_template: false,
+              created_at: new Date().toISOString()
+            })
 
             if(newList){
                 return res.status(201).json({
@@ -48,9 +59,9 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse<Re
     if(req.method ==="GET"){
         try {
             const list = await findList(req.query as Partial<List>)
-            return res.status(200).json({ message: "Successfully fetched users", data: list });
+            return res.status(200).json({ message: "Successfully fetched lists", data: list });
         } catch (error) {
-            return res.status(500).json({ message: "Error, unable to process user fetch request"
+            return res.status(500).json({ message: "Error, unable to process lists fetch request"
             })
             
         }

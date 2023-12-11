@@ -6,6 +6,7 @@ import React from "react";
 
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/Toaster";
+import Providers from "@/components/Providers";
 
 // const inter = Inter({ subsets: ["latin"] });
 
@@ -30,12 +31,14 @@ export default function RootLayout({
       )}
     >
       <body className="min-h-screen pt-12 bg-slate-50 antialiased">
-        <Navbar />
+        <Providers>
+          <Navbar />
 
-        {authModal}
-        <div className="container max-w-7xl mx-auto h-full pt-12">
-          {children}
-        </div>
+          {authModal}
+          <div className="container max-w-7xl mx-auto h-full pt-12">
+            {children}
+          </div>
+        </Providers>
         <Toaster />
       </body>
     </html>

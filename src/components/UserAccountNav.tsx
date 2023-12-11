@@ -1,6 +1,7 @@
 "use client";
 import { User } from "next-auth";
 import { FC } from "react";
+import { useRouter } from "next/router";
 import React from "react";
 import {
   DropdownMenu,
@@ -15,10 +16,12 @@ import { signOut } from "next-auth/react";
 
 interface UserAccountNavProps {
   user: Pick<User, "email" | "name" | "image">;
+  id: string;
 }
 
 const UserAccountNav: FC<UserAccountNavProps> = ({
   user,
+  id,
 }) => {
   return (
     <DropdownMenu>
@@ -45,8 +48,11 @@ const UserAccountNav: FC<UserAccountNavProps> = ({
           </div>
         </div>
         <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
-          <Link href="/">Profile</Link>
+        <DropdownMenuItem
+          asChild
+          className="cursor-pointer"
+        >
+          <Link href={`/User/${id}`}>Profile</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link href="/l/viewList">My Lists</Link>
@@ -65,7 +71,7 @@ const UserAccountNav: FC<UserAccountNavProps> = ({
             });
           }}
         >
-          <Link href="/signout">Sign out</Link>
+          Sign Out
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -36,26 +36,27 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var link_1 = require("next/link");
-var react_1 = require("react");
-var Icons_1 = require("./Icons");
-var button_1 = require("./ui/button");
-var auth_1 = require("@/lib/auth");
-var UserAccountNav_1 = require("./UserAccountNav");
-var Navbar = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var session;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, auth_1.getAuthSession()];
-            case 1:
-                session = _a.sent();
-                return [2 /*return*/, (react_1["default"].createElement("div", { className: "fixed top-0 inset-x-0 h-fit bg-zinc-100 border-b border-zinc-300\r\n    z-[10] py-2" },
-                        react_1["default"].createElement("div", { className: "container max-w-7xl h-full mx-auto flex items-center justify-between gap-2" },
-                            react_1["default"].createElement(link_1["default"], { href: "/", className: "flex gap-2 items-center" },
-                                react_1["default"].createElement(Icons_1.Icons.logo, { className: "h-8 w-8 sm:h-6 sm:w-6" }),
-                                react_1["default"].createElement("p", { className: "hidden text-zinc-700 text-sm font-medium md:block" }, "Sleek Shelf")),
-                            (session === null || session === void 0 ? void 0 : session.user) ? (react_1["default"].createElement(UserAccountNav_1["default"], { user: session.user, id: session.user.username })) : (react_1["default"].createElement(link_1["default"], { href: "sign-in", className: button_1.buttonVariants() }, "Sign In")))))];
-        }
+exports.getUserFromSession = void 0;
+var auth_1 = require("@/lib/auth"); // Adjust the import path as needed
+function getUserFromSession(req) {
+    return __awaiter(this, void 0, void 0, function () {
+        var session;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, auth_1.getAuthSession()];
+                case 1:
+                    session = _a.sent();
+                    if (!session || !session.user.id) {
+                        // You can throw an error or return null based on your error handling strategy
+                        throw new Error("Unauthorized");
+                    }
+                    return [2 /*return*/, {
+                            userId: parseInt(session.user.id, 10),
+                            username: session.user.username
+                            // You can add more user fields if necessary
+                        }];
+            }
+        });
     });
-}); };
-exports["default"] = Navbar;
+}
+exports.getUserFromSession = getUserFromSession;

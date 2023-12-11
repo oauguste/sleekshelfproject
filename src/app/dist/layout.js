@@ -7,6 +7,7 @@ var Navbar_1 = require("@/components/Navbar");
 var react_1 = require("react");
 var utils_1 = require("@/lib/utils");
 var Toaster_1 = require("@/components/ui/Toaster");
+var Providers_1 = require("@/components/Providers");
 // const inter = Inter({ subsets: ["latin"] });
 exports.metadata = {
     title: "Create Next App",
@@ -18,9 +19,10 @@ function RootLayout(_a) {
         // inter.className
         ) },
         react_1["default"].createElement("body", { className: "min-h-screen pt-12 bg-slate-50 antialiased" },
-            react_1["default"].createElement(Navbar_1["default"], null),
-            authModal,
-            react_1["default"].createElement("div", { className: "container max-w-7xl mx-auto h-full pt-12" }, children),
+            react_1["default"].createElement(Providers_1["default"], null,
+                react_1["default"].createElement(Navbar_1["default"], null),
+                authModal,
+                react_1["default"].createElement("div", { className: "container max-w-7xl mx-auto h-full pt-12" }, children)),
             react_1["default"].createElement(Toaster_1.Toaster, null))));
 }
 exports["default"] = RootLayout;

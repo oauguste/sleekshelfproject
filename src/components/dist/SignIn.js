@@ -13,6 +13,7 @@ var SignIn = function () {
             react_1["default"].createElement(UserAuthForm_1["default"], null),
             react_1["default"].createElement("p", { className: "px-8 text-center text-sm text-zinc-700 " },
                 "New to Sleek Shelf?",
+                " ",
                 react_1["default"].createElement(link_1["default"], { href: "/sign-up", className: "hover:text-zinc-800 text-sm underline-offset-4 underline" }, "Sign Up")))));
 };
 exports["default"] = SignIn;

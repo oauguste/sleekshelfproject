@@ -19,7 +19,7 @@ const SignIn = () => {
         {/* sign in form */}
         <UserAuthForm />
         <p className="px-8 text-center text-sm text-zinc-700 ">
-          New to Sleek Shelf?
+          New to Sleek Shelf?{" "}
           <Link
             href="/sign-up"
             className="hover:text-zinc-800 text-sm underline-offset-4 underline"
