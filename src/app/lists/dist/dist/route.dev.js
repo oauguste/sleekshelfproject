@@ -151,6 +151,9 @@ var zod_1 = require("zod");
 
 var zod_validation_error_1 = require("zod-validation-error");
 
+var authCheck_1 = require("@/lib/authCheck"); // Adjust the import path as needed
+
+
 var createListSchema = zod_1.z.object({
   id: zod_1.z.number(),
   user_id: zod_1.z.number(),
@@ -162,25 +165,38 @@ var createListSchema = zod_1.z.object({
 
 function handler(req, res) {
   return __awaiter(this, void 0, void 0, function () {
-    var parsed, newList, error_1, validationError, list, error_2;
-    return __generator(this, function (_a) {
-      switch (_a.label) {
+    var user, _a, title, description, newList, error_1, validationError, list, error_2;
+
+    return __generator(this, function (_b) {
+      switch (_b.label) {
         case 0:
           if (!(req.method === "POST")) return [3
           /*break*/
-          , 4];
-          _a.label = 1;
+          , 5];
+          _b.label = 1;
 
         case 1:
-          _a.trys.push([1, 3,, 4]);
+          _b.trys.push([1, 4,, 5]);
 
-          parsed = createListSchema.parse(req.body);
           return [4
           /*yield*/
-          , listRepository_1.createList(parsed)];
+          , authCheck_1.getUserFromSession(req)];
 
         case 2:
-          newList = _a.sent();
+          user = _b.sent();
+          _a = req.body, title = _a.title, description = _a.description;
+          return [4
+          /*yield*/
+          , listRepository_1.createList({
+            user_id: user.userId,
+            title: title,
+            description: description,
+            is_template: false,
+            created_at: new Date().toISOString()
+          })];
+
+        case 3:
+          newList = _b.sent();
 
           if (newList) {
             return [2
@@ -199,10 +215,10 @@ function handler(req, res) {
 
           return [3
           /*break*/
-          , 4];
+          , 5];
 
-        case 3:
-          error_1 = _a.sent();
+        case 4:
+          error_1 = _b.sent();
 
           if (error_1 instanceof zod_1.z.ZodError) {
             validationError = zod_validation_error_1.fromZodError(error_1);
@@ -221,39 +237,39 @@ function handler(req, res) {
 
           return [3
           /*break*/
-          , 4];
-
-        case 4:
-          if (!(req.method === "GET")) return [3
-          /*break*/
-          , 8];
-          _a.label = 5;
+          , 5];
 
         case 5:
-          _a.trys.push([5, 7,, 8]);
+          if (!(req.method === "GET")) return [3
+          /*break*/
+          , 9];
+          _b.label = 6;
+
+        case 6:
+          _b.trys.push([6, 8,, 9]);
 
           return [4
           /*yield*/
           , listRepository_1.findList(req.query)];
 
-        case 6:
-          list = _a.sent();
+        case 7:
+          list = _b.sent();
           return [2
           /*return*/
           , res.status(200).json({
-            message: "Successfully fetched users",
+            message: "Successfully fetched lists",
             data: list
           })];
 
-        case 7:
-          error_2 = _a.sent();
+        case 8:
+          error_2 = _b.sent();
           return [2
           /*return*/
           , res.status(500).json({
-            message: "Error, unable to process user fetch request"
+            message: "Error, unable to process lists fetch request"
           })];
 
-        case 8:
+        case 9:
           return [2
           /*return*/
           ];
