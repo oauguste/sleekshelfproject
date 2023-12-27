@@ -1,5 +1,5 @@
 import { FC } from "react";
-
+import { getAuthSession } from "@/lib/auth";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 
@@ -7,7 +7,10 @@ interface PageProps {
   id: string;
 }
 
-const Page: FC<PageProps> = ({ id }) => {
+const Page: FC<PageProps> = async () => {
+  const session = await getAuthSession();
+  const id = session?.user.email;
+
   return (
     <div>
       <h1 className="font-bold text-3xl md:text-4xl">
@@ -31,7 +34,7 @@ const Page: FC<PageProps> = ({ id }) => {
             className={buttonVariants({
               className: "w-full mt-4 mb-6",
             })}
-            href={`/${id}/l/create`}
+            href={`/l/create`}
           >
             Create List
           </Link>

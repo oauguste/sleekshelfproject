@@ -25,9 +25,11 @@ const Page = () => {
     },
     onSuccess: () => {
       // Handle success (e.g., redirecting to a confirmation page or displaying a success message)
+      console.log("List created");
     },
     onError: () => {
       // Handle error
+      console.log("List not created");
     },
   });
 
@@ -46,16 +48,22 @@ const Page = () => {
             List names cannot be changed
           </p>
           <div className=" relative">
-            <p className=" absolute text-sm left-0 w-8 inset-y-0 grid place-items-center text-zinc-400">
-              l/
-            </p>
-
             <Input
+              placeholder="name"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="pl-6"
             />
+            {/* <Input
+              value={description}
+              onChange={(e) =>
+                setDescription(e.target.value)
+              }
+            /> */}
+          </div>
+          <div className=" relative mt-2">
             <Input
+              type="text"
+              placeholder="description"
               value={description}
               onChange={(e) =>
                 setDescription(e.target.value)

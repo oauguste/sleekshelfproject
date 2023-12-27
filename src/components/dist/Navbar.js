@@ -54,7 +54,7 @@ var Navbar = function () { return __awaiter(void 0, void 0, void 0, function () 
                             react_1["default"].createElement(link_1["default"], { href: "/", className: "flex gap-2 items-center" },
                                 react_1["default"].createElement(Icons_1.Icons.logo, { className: "h-8 w-8 sm:h-6 sm:w-6" }),
                                 react_1["default"].createElement("p", { className: "hidden text-zinc-700 text-sm font-medium md:block" }, "Sleek Shelf")),
-                            (session === null || session === void 0 ? void 0 : session.user) ? (react_1["default"].createElement(UserAccountNav_1["default"], { user: session.user, id: session.user.username })) : (react_1["default"].createElement(link_1["default"], { href: "sign-in", className: button_1.buttonVariants() }, "Sign In")))))];
+                            (session === null || session === void 0 ? void 0 : session.user) ? (react_1["default"].createElement(UserAccountNav_1["default"], { user: session.user, id: session.user.email })) : (react_1["default"].createElement(link_1["default"], { href: "sign-in", className: button_1.buttonVariants() }, "Sign In")))))];
         }
     });
 }); };

@@ -1,4 +1,4 @@
-import { UserUpdate } from '@/app/database/interfaces';
+import { UserUpdate } from '@/./database/interfaces';
 import { deleteUser, findUserById, updateUser } from '@/repositories/userRepository';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { z } from 'zod';

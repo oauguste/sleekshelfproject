@@ -67,9 +67,11 @@ var Page = function () {
         }); },
         onSuccess: function () {
             // Handle success (e.g., redirecting to a confirmation page or displaying a success message)
+            console.log("List created");
         },
         onError: function () {
             // Handle error
+            console.log("List not created");
         }
     }), createList = _c.mutate, isPending = _c.isPending;
     return (React.createElement("div", { className: "container flex items-center h-full max-w-3xl mx-auto" },
@@ -81,9 +83,9 @@ var Page = function () {
                 React.createElement("p", { className: "text-lg font-medium " }, "name"),
                 React.createElement("p", { className: " text-xs pb-2" }, "List names cannot be changed"),
                 React.createElement("div", { className: " relative" },
-                    React.createElement("p", { className: " absolute text-sm left-0 w-8 inset-y-0 grid place-items-center text-zinc-400" }, "l/"),
-                    React.createElement(Input_1.Input, { value: title, onChange: function (e) { return setTitle(e.target.value); }, className: "pl-6" }),
-                    React.createElement(Input_1.Input, { value: description, onChange: function (e) {
+                    React.createElement(Input_1.Input, { placeholder: "name", value: title, onChange: function (e) { return setTitle(e.target.value); } })),
+                React.createElement("div", { className: " relative mt-2" },
+                    React.createElement(Input_1.Input, { type: "text", placeholder: "description", value: description, onChange: function (e) {
                             return setDescription(e.target.value);
                         } }))),
             React.createElement("div", { className: " flex justify-end gap-4" },
