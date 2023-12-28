@@ -22,6 +22,22 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
+    async signIn({user, account, profile}) {
+      if(account?.provider === "google"){
+        if (typeof user.email === 'string') {
+          const existingUser = await findUser({ email: user.email });
+  
+          if (!existingUser) {
+            // Set the flag for profile completion
+            (user as any).needsProfileCompletion = true;
+          } else {
+            (user as any).needsProfileCompletion = false;
+          }
+        }
+        return true;
+      }
+      return true;
+    },
     async session({token, session})
     {
       if (token){
@@ -30,6 +46,7 @@ export const authOptions: NextAuthOptions = {
         session.user.email = token.email
         session.user.image = token.picture
         session.user.username = token.username
+        session.user.needsProfileCompletion = token.needsProfileCompletion ?? false;
       }
       return session
       

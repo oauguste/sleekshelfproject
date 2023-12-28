@@ -7,6 +7,7 @@ declare module 'next-auth/jwt' {
   interface JWT {
     id: UserId
     username?: string | null
+     needsProfileCompletion?: boolean;
     
   }
 }
@@ -18,6 +19,12 @@ declare module 'next-auth' {
       username?: string | null
       name?: string | null
       email?: string | null
+      needsProfileCompletion?: boolean | null
+      
     }
+    
+  }
+  interface Session extends NextAuthSession {
+    user: User
   }
 }

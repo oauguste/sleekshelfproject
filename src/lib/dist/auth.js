@@ -60,16 +60,44 @@ exports.authOptions = {
         }),
     ],
     callbacks: {
+        signIn: function (_a) {
+            var user = _a.user, account = _a.account, profile = _a.profile;
+            return __awaiter(this, void 0, void 0, function () {
+                var existingUser;
+                return __generator(this, function (_b) {
+                    switch (_b.label) {
+                        case 0:
+                            if (!((account === null || account === void 0 ? void 0 : account.provider) === "google")) return [3 /*break*/, 3];
+                            if (!(typeof user.email === 'string')) return [3 /*break*/, 2];
+                            return [4 /*yield*/, userRepository_1.findUser({ email: user.email })];
+                        case 1:
+                            existingUser = _b.sent();
+                            if (!existingUser) {
+                                // Set the flag for profile completion
+                                user.needsProfileCompletion = true;
+                            }
+                            else {
+                                user.needsProfileCompletion = false;
+                            }
+                            _b.label = 2;
+                        case 2: return [2 /*return*/, true];
+                        case 3: return [2 /*return*/, true];
+                    }
+                });
+            });
+        },
         session: function (_a) {
+            var _b;
             var token = _a.token, session = _a.session;
             return __awaiter(this, void 0, void 0, function () {
-                return __generator(this, function (_b) {
+                return __generator(this, function (_c) {
                     if (token) {
                         session.user.id = token.id;
                         session.user.name = token.name;
                         session.user.email = token.email;
                         session.user.image = token.picture;
                         session.user.username = token.username;
+                        session.user.needsProfileCompletion = (_b = token.needsProfileCompletion) !== null && _b !== void 0 ? _b : false;
                     }
                     return [2 /*return*/, session];
                 });
