@@ -30,6 +30,12 @@ export async function updateUser(id: number, updateWith:UserUpdate) {
     await db.updateTable('user').set(updateWith).where('id', '=', id).execute()
     
 }
+export async function updateUserEmail(email: string, updateWith: UserUpdate) {
+    await db.updateTable('user')
+        .set(updateWith)
+        .where('email', '=', email)
+        .execute();
+}
 
 export async function createUser(user:NewUser) {
     return await db.insertInto(

@@ -39,15 +39,68 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 var react_1 = require("react");
+var router_1 = require("next/router");
+var SessionContext_1 = require("@/lib/SessionContext");
+var userRepository_1 = require("@/repositories/userRepository");
 var CompleteProfile = function () {
-    var _a = react_1.useState({}), profileData = _a[0], setProfileData = _a[1]; // Define the type according to your user model
+    var _a, _b;
+    var _c = react_1.useState({}), profileData = _c[0], setProfileData = _c[1]; // Define the type according to your user model
+    var session = SessionContext_1.useSessionContext().session;
+    var router = router_1.useRouter();
+    var _d = react_1.useState(""), username = _d[0], setUsername = _d[1];
+    var email = ((_a = session === null || session === void 0 ? void 0 : session.user) === null || _a === void 0 ? void 0 : _a.email) || ""; // From session
+    var premiumStatus = "free"; // Default status
     var handleSubmit = function (e) { return __awaiter(void 0, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            e.preventDefault();
-            return [2 /*return*/];
+        var newUser, error_1;
+        var _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    e.preventDefault();
+                    newUser = {
+                        username: username,
+                        email: email,
+                        premium_status: premiumStatus,
+                        created_at: new Date().toISOString(),
+                        passwordHash: ""
+                    };
+                    _b.label = 1;
+                case 1:
+                    _b.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, userRepository_1.createUser(newUser)];
+                case 2:
+                    _b.sent();
+                    // Redirect or handle response
+                    router.push("/profile"); // Example redirect
+                    return [3 /*break*/, 4];
+                case 3:
+                    error_1 = _b.sent();
+                    console.error("Failed to create user:", error_1);
+                    return [3 /*break*/, 4];
+                case 4:
+                    if (!((_a = session === null || session === void 0 ? void 0 : session.user) === null || _a === void 0 ? void 0 : _a.email)) return [3 /*break*/, 6];
+                    return [4 /*yield*/, userRepository_1.updateUserEmail(session.user.email, {
+                            username: username
+                        })];
+                case 5:
+                    _b.sent();
+                    router.push("/some-redirect-path");
+                    _b.label = 6;
+                case 6: return [2 /*return*/];
+            }
         });
     }); };
-    return (react_1["default"].createElement("form", { onSubmit: handleSubmit },
-        react_1["default"].createElement("button", { type: "submit" }, "Complete Profile")));
+    if (!((_b = session === null || session === void 0 ? void 0 : session.user) === null || _b === void 0 ? void 0 : _b.needsProfileCompletion)) {
+        router.push("/");
+        return null;
+    }
+    return (react_1["default"].createElement("div", null,
+        react_1["default"].createElement("h1", null, "Complete Your Profile"),
+        react_1["default"].createElement("form", { onSubmit: handleSubmit },
+            react_1["default"].createElement("input", { type: "text", value: username, onChange: function (e) { return setUsername(e.target.value); }, placeholder: "Enter your username", required: true }),
+            react_1["default"].createElement("p", null,
+                "Email: ",
+                email),
+            react_1["default"].createElement("button", { type: "submit" }, "Submit"))));
 };
 exports["default"] = CompleteProfile;
