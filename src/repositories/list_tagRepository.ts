@@ -1,5 +1,5 @@
-import { db } from "../app/database/database";
-import { ListTag, NewListTag, ListTagUpdate } from "../app/database/interfaces";
+import { db } from "../database/database";
+import { ListTag, NewListTag, ListTagUpdate } from "../database/interfaces";
 
 export async function findTagListById(listId: number, tagId: number) {
   return await db
@@ -38,3 +38,4 @@ export async function deleteTagList(listId: number, tagId: number) {
     .where("tag_id", "=", tagId)
     .execute();
 }
+

@@ -6,6 +6,7 @@ import { buttonVariants } from "./ui/button";
 import { useSession } from "next-auth/react";
 import UserAccountNav from "./UserAccountNav";
 import { SessionProvider } from "next-auth/react";
+import ProfileCompletionCheck from "./ProfileCompletionCheck";
 
 const Navbar = () => {
   const { data: session, status } = useSession();
@@ -27,6 +28,7 @@ const Navbar = () => {
           {/* searchbar */}
 
           {/* sign-in */}
+
           {session?.user ? (
             <UserAccountNav
               user={session.user}

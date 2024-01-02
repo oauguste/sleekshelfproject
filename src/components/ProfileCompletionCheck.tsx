@@ -1,17 +1,22 @@
-// ProfileCompletionCheck.client.tsx
-
 "use client";
 import React from "react";
-import { useRouter } from "next/router";
-import { useSessionContext } from "@/lib/SessionContext";
+import { useRouter, usePathname } from "next/navigation"; // Use next/router instead of next/navigation
+import { useSession } from "next-auth/react";
 
 const ProfileCompletionCheck = () => {
-  const { session } = useSessionContext();
+  const { data: session } = useSession();
   const router = useRouter();
-
+  const path = usePathname();
   React.useEffect(() => {
-    if (session?.user?.needsProfileCompletion) {
-      router.push("/complete-profile");
+    // Check if the user is signed in and needs profile completion
+    if (session && session.user?.needsProfileCompletion) {
+      // Redirect only if not already on the complete-profile page
+      if (path !== "/complete-profile") {
+        console.log("Redirecting to complete-profile");
+        router.push("/complete-profile");
+      }
+    } else if (!session) {
+      console.log("No session found. User not signed in.");
     }
   }, [session, router]);
 

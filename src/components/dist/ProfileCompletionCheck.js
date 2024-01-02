@@ -1,17 +1,25 @@
-// ProfileCompletionCheck.client.tsx
 "use client";
 "use strict";
 exports.__esModule = true;
 var react_1 = require("react");
-var router_1 = require("next/router");
-var SessionContext_1 = require("@/lib/SessionContext");
+var navigation_1 = require("next/navigation"); // Use next/router instead of next/navigation
+var react_2 = require("next-auth/react");
 var ProfileCompletionCheck = function () {
-    var session = SessionContext_1.useSessionContext().session;
-    var router = router_1.useRouter();
+    var session = react_2.useSession().data;
+    var router = navigation_1.useRouter();
+    var path = navigation_1.usePathname();
     react_1["default"].useEffect(function () {
         var _a;
-        if ((_a = session === null || session === void 0 ? void 0 : session.user) === null || _a === void 0 ? void 0 : _a.needsProfileCompletion) {
-            router.push("/complete-profile");
+        // Check if the user is signed in and needs profile completion
+        if (session && ((_a = session.user) === null || _a === void 0 ? void 0 : _a.needsProfileCompletion)) {
+            // Redirect only if not already on the complete-profile page
+            if (path !== "/complete-profile") {
+                console.log("Redirecting to complete-profile");
+                router.push("/complete-profile");
+            }
+        }
+        else if (!session) {
+            console.log("No session found. User not signed in.");
         }
     }, [session, router]);
     return null;

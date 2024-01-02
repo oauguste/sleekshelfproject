@@ -37,7 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 exports.deleteTagList = exports.createTagList = exports.findTagLists = exports.findTagListById = void 0;
-var database_1 = require("../app/database/database");
+var database_1 = require("../database/database");
 function findTagListById(listId, tagId) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {

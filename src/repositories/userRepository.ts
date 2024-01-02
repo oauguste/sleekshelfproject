@@ -46,6 +46,7 @@ export async function createUser(user:NewUser) {
     
 }
 
+
 export async function deleteUser(id:number) {
     return await db.deleteFrom('user')
     .where("id", '=', id)

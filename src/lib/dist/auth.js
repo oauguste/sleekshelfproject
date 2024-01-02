@@ -60,44 +60,18 @@ exports.authOptions = {
         }),
     ],
     callbacks: {
-        signIn: function (_a) {
-            var user = _a.user, account = _a.account, profile = _a.profile;
-            return __awaiter(this, void 0, void 0, function () {
-                var existingUser;
-                return __generator(this, function (_b) {
-                    switch (_b.label) {
-                        case 0:
-                            if (!((account === null || account === void 0 ? void 0 : account.provider) === "google")) return [3 /*break*/, 3];
-                            if (!(typeof user.email === 'string')) return [3 /*break*/, 2];
-                            return [4 /*yield*/, userRepository_1.findUser({ email: user.email })];
-                        case 1:
-                            existingUser = _b.sent();
-                            if (!existingUser) {
-                                // Set the flag for profile completion
-                                user.needsProfileCompletion = true;
-                            }
-                            else {
-                                user.needsProfileCompletion = false;
-                            }
-                            _b.label = 2;
-                        case 2: return [2 /*return*/, true];
-                        case 3: return [2 /*return*/, true];
-                    }
-                });
-            });
-        },
         session: function (_a) {
-            var _b;
             var token = _a.token, session = _a.session;
             return __awaiter(this, void 0, void 0, function () {
-                return __generator(this, function (_c) {
+                return __generator(this, function (_b) {
                     if (token) {
                         session.user.id = token.id;
                         session.user.name = token.name;
                         session.user.email = token.email;
                         session.user.image = token.picture;
                         session.user.username = token.username;
-                        session.user.needsProfileCompletion = (_b = token.needsProfileCompletion) !== null && _b !== void 0 ? _b : false;
+                        session.user.needsProfileCompletion = token.needsProfileCompletion;
+                        // session.user.needsProfileCompletion = token.needsProfileCompletion ?? false;
                     }
                     return [2 /*return*/, session];
                 });
@@ -106,34 +80,42 @@ exports.authOptions = {
         jwt: function (_a) {
             var token = _a.token, user = _a.user;
             return __awaiter(this, void 0, void 0, function () {
-                var dbUser, dbUser;
+                var existingUser, dbUser, dbUser;
                 return __generator(this, function (_b) {
                     switch (_b.label) {
                         case 0:
-                            if (!user) return [3 /*break*/, 5];
-                            if (!user.email) return [3 /*break*/, 4];
+                            if (!user) return [3 /*break*/, 7];
+                            if (!(typeof user.email === 'string')) return [3 /*break*/, 2];
                             return [4 /*yield*/, userRepository_1.findUser({ email: user.email })];
                         case 1:
+                            existingUser = _b.sent();
+                            // Set the flag on the token based on whether the user exists
+                            token.needsProfileCompletion = !existingUser;
+                            _b.label = 2;
+                        case 2:
+                            if (!user.email) return [3 /*break*/, 6];
+                            return [4 /*yield*/, userRepository_1.findUser({ email: user.email })];
+                        case 3:
                             dbUser = _b.sent();
-                            if (!dbUser) return [3 /*break*/, 4];
+                            if (!dbUser) return [3 /*break*/, 6];
                             // Convert dbUser.id to string if it's a number, and assign it to token.id
                             token.id = dbUser.id.toString();
-                            if (!!dbUser.username) return [3 /*break*/, 3];
+                            if (!!dbUser.username) return [3 /*break*/, 5];
                             // Generate and update username if it doesn't exist
                             return [4 /*yield*/, userRepository_1.updateUser(dbUser.id, { username: nanoid_1.nanoid(10) })];
-                        case 2:
+                        case 4:
                             // Generate and update username if it doesn't exist
                             _b.sent();
-                            _b.label = 3;
-                        case 3:
+                            _b.label = 5;
+                        case 5:
                             // Update token with username
                             token.username = dbUser.username || null;
-                            _b.label = 4;
-                        case 4: return [2 /*return*/, token];
-                        case 5:
-                            if (!token.email) return [3 /*break*/, 7];
+                            _b.label = 6;
+                        case 6: return [2 /*return*/, token];
+                        case 7:
+                            if (!token.email) return [3 /*break*/, 9];
                             return [4 /*yield*/, userRepository_1.findUser({ email: token.email })];
-                        case 6:
+                        case 8:
                             dbUser = _b.sent();
                             if (dbUser) {
                                 // Convert dbUser.id to string, and update token with username
@@ -141,7 +123,7 @@ exports.authOptions = {
                                 token.username = dbUser.username || null;
                             }
                             return [2 /*return*/, token];
-                        case 7: 
+                        case 9: 
                         // Return the token as is in other cases
                         return [2 /*return*/, token];
                     }
@@ -154,3 +136,21 @@ exports.authOptions = {
     }
 };
 exports.getAuthSession = function () { return next_auth_1.getServerSession(exports.authOptions); };
+// async signIn({user, account}) {
+//   if(account?.provider === "google"){
+//     if (typeof user.email === 'string') {
+//       const existingUser = await findUser({ email: user.email });
+//       console.log(existingUser)
+//       console.log(existingUser?.email)
+//       const needsProfileCompletion = !existingUser
+//       // if (!existingUser) {
+//       //   // Set the flag for profile completion
+//       //   (user as any).needsProfileCompletion = true;
+//       // } else {
+//       //   (user as any).needsProfileCompletion = false;
+//       // }
+//     }
+//     return true;
+//   }
+//   return true;
+// },
