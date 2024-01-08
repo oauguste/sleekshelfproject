@@ -25,7 +25,7 @@ const CompleteProfile = () => {
       premium_status: premiumStatus,
 
       created_at: new Date().toISOString(),
-      passwordHash: "",
+      password_hash: "",
     };
     try {
       await createUser(newUser);

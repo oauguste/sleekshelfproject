@@ -60,78 +60,62 @@ exports.authOptions = {
         }),
     ],
     callbacks: {
+        jwt: function (_a) {
+            var token = _a.token, user = _a.user, trigger = _a.trigger, session = _a.session;
+            return __awaiter(this, void 0, void 0, function () {
+                var existingUser;
+                return __generator(this, function (_b) {
+                    switch (_b.label) {
+                        case 0:
+                            if (!token.id) {
+                                token.id = nanoid_1.nanoid();
+                            }
+                            if (!(user && typeof user.email === 'string')) return [3 /*break*/, 2];
+                            return [4 /*yield*/, userRepository_1.findUser({ email: user.email })];
+                        case 1:
+                            existingUser = _b.sent();
+                            token.needsProfileCompletion = !existingUser; // false if user exists
+                            if (existingUser) {
+                                token.id = existingUser.id.toString();
+                                token.username = existingUser.username || null;
+                            }
+                            _b.label = 2;
+                        case 2:
+                            // Update token based on session changes
+                            if (trigger === "update" && (session === null || session === void 0 ? void 0 : session.needsProfileCompletion) !== undefined) {
+                                token.needsProfileCompletion = session.needsProfileCompletion;
+                            }
+                            return [2 /*return*/, token];
+                    }
+                });
+            });
+        },
         session: function (_a) {
             var token = _a.token, session = _a.session;
             return __awaiter(this, void 0, void 0, function () {
                 return __generator(this, function (_b) {
                     if (token) {
-                        session.user.id = token.id;
+                        session.user.id = token.id || nanoid_1.nanoid();
                         session.user.name = token.name;
-                        session.user.email = token.email;
+                        session.user.email = token.email || '';
                         session.user.image = token.picture;
                         session.user.username = token.username;
+                        // session.user.needsProfileCompletion = true;
                         session.user.needsProfileCompletion = token.needsProfileCompletion;
-                        // session.user.needsProfileCompletion = token.needsProfileCompletion ?? false;
+                        //     if(user){ 
+                        //       if (typeof user.email === 'string') { 
+                        //         console.log(user)
+                        //       const existingUser = await findUser({ email:  session.user.email });
+                        //       if (existingUser) {
+                        //         session.user.needsProfileCompletion = false;
+                        //         console.log(session.user.needsProfileCompletion)
+                        //     }
+                        //   }
+                        // }
                     }
                     return [2 /*return*/, session];
                 });
             });
-        },
-        jwt: function (_a) {
-            var token = _a.token, user = _a.user;
-            return __awaiter(this, void 0, void 0, function () {
-                var existingUser, dbUser, dbUser;
-                return __generator(this, function (_b) {
-                    switch (_b.label) {
-                        case 0:
-                            if (!user) return [3 /*break*/, 7];
-                            if (!(typeof user.email === 'string')) return [3 /*break*/, 2];
-                            return [4 /*yield*/, userRepository_1.findUser({ email: user.email })];
-                        case 1:
-                            existingUser = _b.sent();
-                            // Set the flag on the token based on whether the user exists
-                            token.needsProfileCompletion = !existingUser;
-                            _b.label = 2;
-                        case 2:
-                            if (!user.email) return [3 /*break*/, 6];
-                            return [4 /*yield*/, userRepository_1.findUser({ email: user.email })];
-                        case 3:
-                            dbUser = _b.sent();
-                            if (!dbUser) return [3 /*break*/, 6];
-                            // Convert dbUser.id to string if it's a number, and assign it to token.id
-                            token.id = dbUser.id.toString();
-                            if (!!dbUser.username) return [3 /*break*/, 5];
-                            // Generate and update username if it doesn't exist
-                            return [4 /*yield*/, userRepository_1.updateUser(dbUser.id, { username: nanoid_1.nanoid(10) })];
-                        case 4:
-                            // Generate and update username if it doesn't exist
-                            _b.sent();
-                            _b.label = 5;
-                        case 5:
-                            // Update token with username
-                            token.username = dbUser.username || null;
-                            _b.label = 6;
-                        case 6: return [2 /*return*/, token];
-                        case 7:
-                            if (!token.email) return [3 /*break*/, 9];
-                            return [4 /*yield*/, userRepository_1.findUser({ email: token.email })];
-                        case 8:
-                            dbUser = _b.sent();
-                            if (dbUser) {
-                                // Convert dbUser.id to string, and update token with username
-                                token.id = dbUser.id.toString();
-                                token.username = dbUser.username || null;
-                            }
-                            return [2 /*return*/, token];
-                        case 9: 
-                        // Return the token as is in other cases
-                        return [2 /*return*/, token];
-                    }
-                });
-            });
-        },
-        redirect: function () {
-            return '/';
         }
     }
 };

@@ -23,71 +23,59 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     
+   
+    async jwt({ token, user, trigger, session}) {
+
+      if (!token.id) {
+        token.id = nanoid();
+      }
+      // Check if the user exists when a new user is signing in
+      if (user && typeof user.email === 'string') {
+        const existingUser = await findUser({ email: user.email });
+        token.needsProfileCompletion = !existingUser; // false if user exists
+        if (existingUser) {
+          token.id = existingUser.id.toString();
+          token.username = existingUser.username || null;
+        }
+      }
+     // Update token based on session changes
+  if (trigger === "update" && session?.needsProfileCompletion !== undefined) {
+    token.needsProfileCompletion = session.needsProfileCompletion;
+  }
+
+      return token;
+    },  
+    
     async session({token, session})
     {
     
       if (token){
-        session.user.id = token.id
+        session.user.id = token.id || nanoid()
         session.user.name = token.name
-        session.user.email = token.email
+        session.user.email = token.email || ''
         session.user.image = token.picture
         session.user.username = token.username
-        session.user.needsProfileCompletion = token.needsProfileCompletion ;
-        // session.user.needsProfileCompletion = token.needsProfileCompletion ?? false;
+        // session.user.needsProfileCompletion = true;
+        session.user.needsProfileCompletion = token.needsProfileCompletion;
+
+    //     if(user){ 
+    //       if (typeof user.email === 'string') { 
+    //         console.log(user)
+    //       const existingUser = await findUser({ email:  session.user.email });
+    //       if (existingUser) {
+    //         session.user.needsProfileCompletion = false;
+    //         console.log(session.user.needsProfileCompletion)
+            
+        
+        
+    //     }
+    //   }
+    // }
+       
       }
       return session
       
-    },  
-    async jwt({ token, user }) {
-      if (user) {
-        if (typeof user.email === 'string') { 
-          const existingUser = await findUser({ email: user.email });
-        // Set the flag on the token based on whether the user exists
-        token.needsProfileCompletion = !existingUser;
-        
-      }
-       
-
-        // Check if user.email is not null or undefined before passing it to findUser
-        if (user.email) {
-          const dbUser = await findUser({ email: user.email });
-    
-          if (dbUser) {
-            // Convert dbUser.id to string if it's a number, and assign it to token.id
-            token.id = dbUser.id.toString();
-    
-            if (!dbUser.username) {
-              // Generate and update username if it doesn't exist
-              await updateUser(dbUser.id, { username: nanoid(10) });
-            }
-    
-            // Update token with username
-            token.username = dbUser.username || null;
-          }
-        }
-    
-        return token;
-      } else if (token.email) {
-        // When user object is not present, but token.email is
-        const dbUser = await findUser({ email: token.email });
-    
-        if (dbUser) {
-          // Convert dbUser.id to string, and update token with username
-          token.id = dbUser.id.toString();
-          token.username = dbUser.username || null;
-        }
-    
-        return token;
-      }
-    
-      // Return the token as is in other cases
-      return token;
-    },
-    
-    redirect(){
-      return '/'
-    }
-  },
+    },  }
 
   }
   export const getAuthSession = () => getServerSession(authOptions)

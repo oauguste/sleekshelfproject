@@ -11,9 +11,14 @@ const ProfileCompletionCheck = () => {
     // Check if the user is signed in and needs profile completion
     if (session && session.user?.needsProfileCompletion) {
       // Redirect only if not already on the complete-profile page
-      if (path !== "/complete-profile") {
+      if (
+        path !==
+        `/User/${session.user.email}/completeProfile`
+      ) {
         console.log("Redirecting to complete-profile");
-        router.push("/complete-profile");
+        router.push(
+          `/User/${session.user.email}/completeProfile`
+        );
       }
     } else if (!session) {
       console.log("No session found. User not signed in.");

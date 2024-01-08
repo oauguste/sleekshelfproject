@@ -60,7 +60,7 @@ export interface UserTable {
   id: Generated<number>;
   username: string;
   email: string;
-  passwordHash: string;
+  password_hash: string;
   premium_status: "free" | "paid";
   // If the column is nullable in the database, make its type nullable.
   // Don't use optional properties. Optionality is always determined

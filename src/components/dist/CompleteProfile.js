@@ -62,7 +62,7 @@ var CompleteProfile = function () {
                         email: email,
                         premium_status: premiumStatus,
                         created_at: new Date().toISOString(),
-                        passwordHash: ""
+                        password_hash: ""
                     };
                     _b.label = 1;
                 case 1:

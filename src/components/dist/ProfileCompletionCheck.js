@@ -13,9 +13,10 @@ var ProfileCompletionCheck = function () {
         // Check if the user is signed in and needs profile completion
         if (session && ((_a = session.user) === null || _a === void 0 ? void 0 : _a.needsProfileCompletion)) {
             // Redirect only if not already on the complete-profile page
-            if (path !== "/complete-profile") {
+            if (path !==
+                "/User/" + session.user.email + "/completeProfile") {
                 console.log("Redirecting to complete-profile");
-                router.push("/complete-profile");
+                router.push("/User/" + session.user.email + "/completeProfile");
             }
         }
         else if (!session) {
